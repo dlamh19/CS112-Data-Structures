@@ -1,0 +1,77 @@
+ArrayList<String> result = new ArrayList<String>();
+		ArrayList<Occurrence> arraylist1 = keywordsIndex.get(kw1);
+		ArrayList<Occurrence> arraylist2 = keywordsIndex.get(kw2);
+		
+		int temp1 = 0;
+		int temp2 = 0; 
+		int total = 0; 
+		
+		if (arraylist1 == null && arraylist2 == null)
+		{
+			return result; 
+		}
+		else if (arraylist1 == null)
+		{
+			while (temp2 < arraylist2.size() && total < 5)
+			{
+				result.add(arraylist2.get(temp2).document); 
+				temp2++; 
+				total++; 
+			}
+			
+		}
+		else if (arraylist2 == null)
+		{
+			while (temp1 < arraylist1.size() && total < 5)
+			{
+				result.add(arraylist1.get(temp1).document); 
+				temp1++; 
+				total++; 
+			}
+		}
+		else 
+		{	
+			while ((temp1 < arraylist1.size() || temp2 < arraylist2.size()) && total < 5) 
+			{
+				if (arraylist1.get(temp1).frequency > arraylist2.get(temp2).frequency && (!result.contains(arraylist1.get(temp1).document))) 
+				{
+					result.add(arraylist1.get(temp1).document); 
+					temp1++;
+					total++; 
+				}
+				
+				else if (arraylist1.get(temp1).frequency < arraylist2.get(temp2).frequency && (!result.contains(arraylist2.get(temp2).document)))
+				{
+					result.add(arraylist2.get(temp2).document); 
+					temp2++;
+					total++; 
+				}
+				
+				else
+				{
+					if (!result.contains(arraylist1.get(temp1).document))
+					{
+						result.add(arraylist1.get(temp1).document);
+						total++; 
+						temp1++;
+					}
+					
+					else
+						temp1++; 
+					
+					if ((!result.contains(arraylist2.get(temp2).document)))
+					{
+						if (total < 5)
+						{
+							result.add(arraylist2.get(temp2).document); 
+							temp2++;
+							total++; 
+						}
+					}
+					else 
+						temp2++; 	
+				}
+			}
+		}
+		
+		return result;
