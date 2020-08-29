@@ -1,0 +1,846 @@
+CS112 Notes
+
+classes define the objects
+
+public class node
+{
+	int data;
+	Node next;
+
+	public node(int d, node n)
+	{
+		data = d;
+		next = n;
+	}
+	
+}
+
+_______________________________________________________
+
+STACKS
+Last In First Out (LIFO)
+Stacks have two funtions push and pop
+
+Push puts the data on the top
+Pop takes the data from the top
+
+Examples of Stacks: Undo Button, Things done in reverse, Storing Index, Storing the Target, Reverse a Linked List
+
+
+Example of storing Index: Whats the longest substring inside ()
+Use a Stack to store the index of the parenthesis 
+Store the index of the ( and then keep going until you find another ( or ).
+If you find another ( you put it in the stack also, otherwise if you find a ) you subtract the index of ) - (
+
+
+
+
+
+1) Array
+Push best case: o(1) worst case: o(n) 
+Pop  o(1)
+
+2) Linked List
+Push is also the same as addToFront O(1)
+Pop is also the same as deleteFront O(1)
+
+QUEUES
+First In First Out (FIFO)
+Two types of functions - Enqueue, Dequeue
+Enqueue is adding to the last
+Deuque is taking away the first element
+
+1) Array
+Two pointers for the Front and a Tail
+Enqueue is O(1)
+Dequeue is O(N)
+
+2) Circular Linked List
+Enqueue is 0(1)
+Dequeue is 0(1)
+
+3) 
+________________________________________________________
+
+Sequential Search
+
+Best Case: 0(1)
+Worst Case: 0(N)
+
+Average: 
+A) ITems have the same probability of being searched
+B) items have different probablity of being searched 
+
+Computing the Average
+AVG = C1 * P1 + C2 * P2 + ... + Cm * Pm
+P = Probaility
+C = Item being serached 
+
+If we assume M items
+A) each item probability of being searched 1/M
+
+AVG = C1 * 1/M + C2 * 1/M + ... + Cm * 1/m
+	= (C1 + C2 + ... + Cm)/(M)
+
+AVG = 1*1/4 + 2*1/4 + 3*1/4 + 4 * 1/4
+	= 10/4
+
+B) is the same as A but you can rearrange the probabilities inorder to create a lower avg
+
+________________________________________________________
+
+Binary search comparisons
+1) n = 2^k				when the size of the array is a power of 2
+2) n = 2^k - 1			when the size of the array is odd
+
+________________________________________________________
+public static Node deleteAll(Node front, int target)
+{
+	if(front == null)
+		return null;
+	if(front.data == target)
+	{
+		front = front.next;
+		deleteAll(front, target);
+		return front;
+	}
+	else
+	{
+		front.next = deteleAll(front.next, target);
+		return front;
+	}
+
+}
+
+public static Node merge(Node forntL1, Node forntL2)
+{
+	if(L1 == null)
+		return L2;
+	if(L2 == null)
+		return L1;
+	if(L1.data < L2.data)
+	{
+		L1.next = merge(L1.next, L2);
+		return L1;
+
+	}
+	if(L2.data < L1.data)
+	{
+		L2.next = merge(L1, L2.next);
+		return L2;
+	}
+	else
+		L1.next = merge(L1.next, L2.next);
+		return L1;
+}
+_________________________________________________
+Comparison Tree used to analyze the running time of binary search
+
+
+
+Ordered Array
+Search: 0(LogN) = Binary Search
+Insert: 0(N)
+
+Linked List
+Search: 0(N)
+Insert: 0(N)
+
+____________________________________________________
+Binary Search Tree(BST)
+
+CompareTo:
+0 - two objects are the same 
+less than 0 - first object comes before
+greater than 0 - first objects comes after
+
+Inorder = ascending order
+Code:
+
+inorder(node)
+if(node == null)
+	return;
+inorder(left)
+print(node.key)
+print(node.right)
+
+
+DeleteNode in BST
+
+Three Cases:
+1) Nodes is a leaf
+	Simply detach from the parent 
+2) Node has one child 
+	Makes the node's parent refer to the child 	
+3) Node has two childs
+	This has 3 steps:
+	1) Find Inorder Predecesor
+	2) Copy Predecesor into the node position
+	3) delete the node 
+
+BIG(0)
+Insert and Delete have the same worst and best case
+Inserting In a Balanced Tree is 0(LogN) which is best Case
+Worst case is just a Tree that looks like a linked list where it's 0(N)
+
+Searching
+Best Case is the Search for X is the Root 0(1)
+Worst case is 0(N)
+
+_____________________________________________________________________________
+
+Sorting
+
+insertion sort is O(n^2)
+selection sort 
+
+insetion sort, best case: sorted 0(n), worse case: o(n^2)
+selection sort, best case and worse case is the same o(n^2)
+merge sort, 	
+
+===========
+Merge Sort 
+
+public static void sort (int[] a, int lo, int hi)
+{   
+	// sort a[lo, hi)
+    int n = hi - lo;
+    if ( n <= 1 ) 
+    	return;   
+
+    int middle = lo + (n/2);
+
+    sort(a, lo, middle);
+    sort(a, middle, hi);
+    merge(a, lo, middle, hi);
+}
+
+public static void merge (int[] a, int lo, int mid, int hi)
+{
+   	// merge a[lo,mid) with a[mid,hi) into aux[0,hi-lo)   
+   	int i =  lo
+    int j = mid;
+    int n = hi - lo;
+    int[] aux = new int[n];
+
+    for ( int k = 0; k < n; k++ ) 
+    { 
+       	if ( i == mid ) 
+       		aux[k] = a[j++];
+      	else if ( j == hi ) 
+      		aux[k] = a[i++];
+       	else if ( a[j] < a[i]) 
+      		aux[k] = a[j++];
+      	else 
+      		aux[k] = a[i++];
+    }
+
+  	// copy back into a[lo, hi)   
+  	for ( int k = 0; k < n; k++ ) 
+  	{     
+  		a[lo+k] = aux[k];  	
+  	}
+}
+
+7,14,3,5,8,2
+
+following code
+
+sort(a,0,6), n = 6, middle = 0 + 3
+A) sort(a,0,3) n = 3, middle = 0 + 1
+	A) sort(a,0,1), n = 1 
+	B) sort(a,1,3), n = 2, middle = 1 + 1
+		A) sort(a,1,2) n = 1
+		B) sort(a,2,3) n = 1
+		C) merge(a,1,2,3)
+			i = 1, j = 2, n = 2
+			7,14,3,5,8,2
+			7,3,3,5,8,2
+			7,3,14,5,8,2
+	C) merge(a,0,1,3)
+		i = 0, j = 1, n = 3
+		3,7,14,5,8,2
+B) sort(a, 3, 6) n = 3, middle = 3 + 1
+	A) sort(a, 3, 4) n = 1
+	B) sort(a, 4, 6) n = 2, middle = 4 + 1
+		A) sort(a, 4, 5) n = 1
+		B) sort(a, 5, 6) n = 1
+		C) merge(a, 4, 5, 6) 
+
+
+
+
+==========
+{7,9,3,15,8,2,1}
+sort(a,0,7)
+merge sort sorts from lo to hi but not including hi
+
+
+_____________________________________________________________________________________________
+
+Array List Resizing when it gets a new element is double in the java class
+
+Everytime you see a parenthessis think about using Stacks
+
+(2*(3-4))/5 --> 234-*5
+postOrder(root)
+{
+	if(root == null)
+		return;
+
+	postOrder(root.left)
+	postOrder(root.right)
+
+	print root;
+}
+Tracing the code ^^:
+po(/)
+	po(*) Left
+		po(2) Left
+			po(null)
+			po(null)
+			print 2
+		po(-) Right
+			po(3)
+				po(null)
+				po(null)
+				print 3
+			po(4)
+				po(null)
+				po(null)
+				print 4
+		print -
+	po(5) Right
+		po(null)
+		po(null)
+		print 5
+print /
+
+To evaluate 234-*5/ in a stack
+Push 2 3 4 in the stack
+When you see - then do 3 - 4, Then you push back -1 into the stack
+Then you see * and do 2 * -1 and push -2 back into the stack
+Then you push 5 into the stack and then you / and then do -2/5
+Code:
+
+public class  postFixEvaluate(String expression)
+{
+	Stack<Float> Stack = new Stack <Float>();
+
+	for(int i = 0; i < expression.length(); i++)
+	{
+		if(ch == ' ')
+			continue;
+		if(ch == '+' || ch == '-'' || ch == '/')
+		{
+			float first = stack.pop();
+			float second = stack.pop();
+
+			switch(ch)
+			
+			case '-'
+				stack.push(second - first)
+			case '+'
+			case '/'
+			case '*'
+		}
+		else
+			stack.push(ch - 'o')
+	}
+	return stack.pop();
+
+}
+
+
+Problem Set #3
+(100 * 19) + 50x(1 + 2 + 3 + ... + 18) + 18*1
+= 10468
+
+Static vs NonStatic Methods
+
+Static:
+Does not relate to objects
+Memory is static
+
+NonStatic:
+Relates to objects
+One more parameter
+Have to create objects in order to acess the non static method
+Memory is non static and thats the reason why we need an object to acess it
+
+
+________________________________________________________________
+
+Tree Sort Algorithm 
+
+40, 20, 30, 50, 45
+
+1) Create a BST
+
+2) For Each Array Item Best Case: (N Log N) Worst Case is with a Skewed Tree: O(N^2)
+	Insert Item in BST
+
+3) Inorder Traversal (N)
+
+N Log N + N = O(N LOG N)
+
+______________________________________________________________________
+
+AVL: Balance BST in which the height of the left and right subtrees differ by at most one node
+Height of BT:
+A) Empty = -1
+N) Not Empty = 1 + Maximum of Heights of the left and right subtree
+
+Every Node keeps
+-Parents
+-Key
+-Left
+-Right
+-Height
+-Balance Factor
+	- Left and Right Subtree have equal heaights
+	/ Left subtree has one more node in height
+	\ Right subtree has one mor node in height than the left
+
+Insert Node
+1) Insert Key
+2) Backtrack the parent chain updating Balance Factor and height of node
+	-If node is unbalanced Stop
+		call node X
+3) Rebalcne at node X
+	1) Identify node R as Root of tallest subtree of X
+	2) Identify cases
+		Case 1: the Balance Factor of X and R have the same orientation
+		Case 2: the Balance Factor of X and R have opposite orientation 
+__________________________________________________________________________
+
+FINAL PRACTICE
+public void printGreater(int[] H, int n, int k) 
+{
+	recursivePrintGreat(H, n, k, 0);
+}
+
+public void recursivePrintGreater(int[] H, int n, int k, int x) 
+{
+	if(x >= n)		//out of bounds
+		return;
+
+	if(h[k] > k)
+		sop(h[k]);
+		recursivePrintGreat(H, n, k, 2x+1);
+		recursivePrintGreat(H, n, k, 2x+2);
+}
+
+public class Neighbor
+{
+    public int vertex;
+    public Neighbor next;
+}
+
+public class Graph 
+{
+    Neighbor[] adjLists;  // adjacency linked lists for all vertices
+
+    // returns true if there is a path from v to w, false otherwise
+    public boolean hasPath(int v, int w) 
+    {
+
+    	if(v == w)
+    		return false;
+
+    	boolean[] visited = new boolean[adjLists.length];
+
+    	Arrays.fill(visited,false);
+
+    	return dfsPath(v, w, visited);
+    }
+
+    public static boolean dfsPath(int start, int end, boolean[] visited)
+    {
+        visited[start] = true;
+
+        for (Neighbor ptr = adjlists[start]; ptr != null; ptr = ptr.next) 
+        {
+        	if(!visited[ptr.vertex])
+        		visited[ptr.vertex] = true;
+
+        	dfsPath(ptr.vertex, end, visited);
+        }
+        if(visited[end] == true)
+        	return true;
+        else 
+        	return false;
+
+
+    }
+}
+
+
+
+
+
+
+
+
+________________________________________________________________________________
+PS12 #1
+class Neighbor
+{
+    public int vertex;
+    public Neighbor next;
+}
+
+class Vertex 
+{
+    String name;
+    Neighbor neighbors; // adjacency linked lists for all vertices
+}
+
+public class Queue<T> 
+{
+    public Queue() {...}
+    public void enqueue(T item) {...}
+    public T dequeue() throws NoSuchElementException {...}
+    public boolean isEmpty() {...}
+}
+
+public class Graph 
+{
+   Vertex[] vertices;
+
+   // returns an array of indegrees of the vertices, i.e. return[i] is the
+   // number of edges that are directed IN TO vertex i
+
+   public int[] indegrees() 
+   {
+   		int[] array = new array[vertices.length];
+   		Arrays.fills(array, 0);
+
+   		for(int i = 0; i < vertices.length; i++)
+   			for(Neighbor ptr = vertices[i].neighbors; ptr != null; ptr = ptr.next)
+   				array[ptr.vertex] = array[ptr.vertex] + 1;
+
+   		return array;
+   }
+}
+
+BigO = o(n + e + e) => O(N + E)
+N vertices in List
+E edges to traverse
+E edges to acess
+_________________________________________________________________________________
+
+PS12 #2
+// returns an array with the names of vertices in topological sequence
+public String[] topsort() 
+{
+	int[] indeg = indegrees(); 		//indegrees method alreay implemented
+	String[] topSort = indeg.length;
+	int[] topNum = 0;
+
+	Queue queue = new Queue();
+
+	for(int i = 0; i < array.length; i++)
+	{
+		if(indeg == 0)
+		{
+			topSort[topNum] = vertices[i].name;
+			topNum++;
+			queue.enqueue[i];
+		}
+	}
+
+	while(!queue.isEmpty)
+	{
+		int deq = queue.dequeue();
+
+		for(Neighbor ptr = vertices[deq].neighbors; ptr != null; ptr = ptr.next)
+		{
+			indeg[ptr.vertex]--;
+
+			if(indeg[ptr.vertex] == 0)
+			{
+				topSort[topNum] = vertices[ptr.vertex].name
+				topNum++;
+				queue.enqueue(ptr.vertex);
+			}
+		}
+	}
+	return topSort;
+}
+________________________________________
+
+PS12 #3
+
+class Vertex 
+{
+    String name;
+    Neighbor neighbors; // adjacency linked lists for all vertices
+}
+
+public class Graph 
+{
+    Vertex[] vertices;
+
+   	// performs a recursive dfs starting at vertex v
+    private void dfs(int v, boolean[] visited) 
+    {
+        // already implemented
+    }
+
+    public boolean stronglyConnected() 
+    {
+    	boolean[] dfsVisited = new boolean[vertices.length];
+    	boolean holder = true;
+
+
+    	for(int i = 0; i < vertices.lengthl i++)
+    	{
+    	    boolean[] visited = new boolean[vertices.length];
+    		dfs(vertices[i], visited);
+
+    		for(int i = 0; i < visited.length; i++)
+    			if(visited[i] == false)
+    				return false;	
+    	}
+    	
+    	
+
+    }
+} 
+
+________________________________________
+
+PS13 #2
+
+public class LLNode<T extends Comparable<T>>  
+{
+    public T info;
+    public LLNode<T> next;
+
+}
+
+complete the following method to "split" the linked list in half:
+// splits the given list in half such that the return value is 
+// a reference to the first node of the second half. Also, the 
+// "next" field of the last node in the first half is set to null.
+
+public static <T extends Comparable<T> LLNode<T> split(LLNode<T> list)
+{
+	Node ptr = null;
+	Node first = null;
+	Node second = list;
+	int counter = 0;
+
+
+	while(ptr != null)
+	{
+		counter++;
+		ptr = ptr.next;
+	}
+
+	counter = counter / 2;
+
+	for(int i = 0; i < counter; i++)
+	{
+		first = second;
+		second = second.next;
+
+	}
+
+	first.next = null;
+
+	return second;
+}
+
+________________________________________
+
+PS13 #3
+
+// merge the lists l1 and l2 into a single linked list, whose
+// first node is referenced by the return value - no additional
+// linked list nodes are used
+// COMPLETE METHOD USING RECURSION, NO NEW NODES TO BE CREATED
+
+public static <T extends Comparable<T>> LLNode<T> merge(LLNode<T> l1, LLNode<T> l2) 
+{
+	if(L1 = null)
+		return L2;
+	if(L2 = null)
+		return L2;
+
+
+	if(L1.info.compareTo(L2) == 0)
+	{
+		L2.next = merge(L1.next, L2.next);
+		L1.next = L2;
+		return L1;
+	}
+
+	if(L1.info.compareTo(L2) < 0)
+	{
+		L1.next = merge(L1.next, L2);
+		return L1;
+	}
+
+	if(L1.info.compareTo(L2) > 0)
+	{
+		L2.next = merge(L1, L2.next);
+		return L2;
+	}
+
+
+
+}
+
+Using this merge solution, and the solution to the split in the previous problem, complete the mergesort implementation:
+// Sorts the input linked list using mergesort, and returns the front of
+// the sorted linked list. DOES NOT CREATE ANY ADDITIONAL NODES.
+public static <T extends Comparable<T> LLNode<T> mergesort(LLNode<T> list) 
+{
+	if(list = null || list.next == null)
+		return null;
+
+	Node second = split(list);
+
+	list = mergesort(list);
+	second = mergesort(second);
+
+	return merge(list, second);
+}
+
+________________________________________
+
+PS3 #6
+
+public class Node
+{
+    public int data;
+    public Node next;
+} 
+
+public static Node merge(Node frontL1, Node frontL2) 
+{
+	if(frontL1 = null)
+		return frontL2;
+
+	if(frontL2 = null)
+		return frontL1;	
+
+	if(frontL1.data == frontL2.data)
+       front1.next = merge(frontL1, frontL2);
+       return frontL1;
+
+    if(frontL1.data < frontL2.data)
+    	frontL1.next = merge(frontL1.next, frontL2);
+    	return frontL1;
+
+    if(frontL1.data > frontL2.data)
+    	frontL2.next = merge(frontL2.next, frontL1)
+    	return frontL2;
+}
+________________________________________
+class Neighbor
+{
+    public int vnum;
+    public Neighbor next;
+}
+
+class Graph 
+{
+    Neighbor[] adjlists;
+}
+
+public class Queue<T> 
+{
+    public Queue() {...}
+    public void enqueue(T item) {...}
+    public T dequeue() throws NoSuchElementException {...}
+    public boolean isEmpty() {...}
+}
+
+public int shortestPath(int x, int y)
+	{
+		boolean[] visited = new boolean[adjlists.length];
+		int[] back = new int[adjlists.length];
+		int endIndex = y;
+
+		int counter = 0;
+
+		Queue queue = new Queue;
+
+		queue.enqueue(x);
+
+		while(!queue.isEmpty)
+		{
+			int v = queue.dequeue;
+
+
+			for(Neighbor ptr = Neighbor[v]; ptr = null; ptr = ptr.next)
+			{
+				if(visited[ptr.vnum] == false)
+				{
+					back[vnum] = v;
+ 					queue.enqueue(ptr.vnum);
+					visited[ptr.vnum] = true;
+				}
+			}
+		}
+
+		Stack<Integer] stack = new Stack<>();
+
+		while(endIndex != x)
+		{
+			stack.push(y);
+			endIndex = back[endIndex];
+			counter++;
+		}
+
+		if(endIndex != x)
+			return -1;
+		else 
+			return counter;
+
+		
+	}
+
+
+   
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                           
+
+
+
+
+
+
+
+
+
+
+
+
+
